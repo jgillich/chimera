@@ -1,0 +1,24 @@
+install:
+  - npm install
+script:
+  - npm test
+docker:
+  socketPath: /var/run/docker.sock
+images:
+  ubuntu:
+    image: ubuntu
+    tags:
+      - "14.04"
+      - "15.10"
+    install:
+      - apt-get update -qq
+      - apt-get upgrade -y -qq
+      - apt-get install nodejs nodejs-legacy npm -y -qq
+  fedora:
+    image: fedora
+    tags:
+      - "22"
+      - "23"
+    install:
+      - dnf update -y -q
+      - dnf install node npm -y -q

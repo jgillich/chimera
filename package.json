@@ -1,0 +1,31 @@
+{
+  "name": "chimera",
+  "version": "1.0.0",
+  "description": "Easy multi-container testing with Docker",
+  "main": "chimera.js",
+  "bin": "chimera.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jgillich/chimera.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jgillich/chimera/issues"
+  },
+  "homepage": "https://github.com/jgillich/chimera#readme",
+  "dependencies": {
+    "async": "^1.5.0",
+    "colors": "^1.1.2",
+    "dockerode": "^2.2.3",
+    "handlebars": "^4.0.5",
+    "js-yaml": "^3.4.5",
+    "minimist": "^1.2.0",
+    "rimraf": "^2.4.4",
+    "tar-fs": "^1.8.1",
+    "underscore": "^1.8.3"
+  }
+}
