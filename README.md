@@ -1,4 +1,4 @@
-# chimera
+# Chimera [![Build Status](https://travis-ci.org/jgillich/chimera.svg)](https://travis-ci.org/jgillich/chimera)
 
 Chimera allows you to run your tests on multiple Linux distributions with very
 little effort.
