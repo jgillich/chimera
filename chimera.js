@@ -49,7 +49,7 @@ function targets(config, cb) {
       var imageName = image.image || name;
       return {
         name: name,
-        image: imageName
+        image: imageName,
         tag: tag,
         id: id,
         dir: path.join(os.tmpdir(), id),
