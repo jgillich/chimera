@@ -1,0 +1,9 @@
+{
+  "extends": "defaults/configurations/google",
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "dot-location": 0
+  }
+}

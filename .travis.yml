@@ -4,3 +4,8 @@ services:
   - docker
 script:
   - node chimera.js
+env:
+  matrix:
+    - CHIMERA_TARGET=ubuntu:14.04
+    - CHIMERA_TARGET=ubuntu:15.10
+    - CHIMERA_TARGET=fedora

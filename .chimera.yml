@@ -4,9 +4,8 @@ script:
   - npm test
 docker:
   socketPath: /var/run/docker.sock
-images:
+targets:
   ubuntu:
-    image: ubuntu
     tags:
       - "14.04"
       - "15.10"
@@ -15,7 +14,6 @@ images:
       - apt-get upgrade -y -qq
       - apt-get install nodejs nodejs-legacy npm -y -qq
   fedora:
-    image: fedora
     tags:
       - "22"
       - "23"
