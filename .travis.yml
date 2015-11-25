@@ -3,7 +3,7 @@ sudo: required
 services:
   - docker
 script:
-  - node chimera.js
+  - node chimera.js --verbose
 env:
   matrix:
     - CHIMERA_TARGET=ubuntu:14.04
