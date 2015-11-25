@@ -76,7 +76,7 @@ sudo: required
 services:
   - docker
 install:
-  - npm install -g chimera
+  - npm install -g chimera-cli
 script:
   - chimera
 ```
