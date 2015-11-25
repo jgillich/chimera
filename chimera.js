@@ -14,10 +14,7 @@ var yaml        = require('js-yaml');
 var minimist    = require('minimist');
 var colors      = require('colors');
 
-
-var argv = (function() {
-  var argv = minimist(process.argv.slice(2));
-
+var argv = (function(argv) {
   return {
     help: argv.h || argv.help,
     version: argv.v || argv.version,
@@ -26,7 +23,7 @@ var argv = (function() {
     target: argv.t || argv.target || process.env.CHIMERA_TARGET,
     verbose: argv.V || argv.verbose
   };
-}());
+}(minimist(process.argv.slice(2))));
 var verbose = argv.verbose ? console.log : function() {};
 var docker;
 var dockerfile = Handlebars.compile([
@@ -85,12 +82,12 @@ function targets(config, cb) {
       var id = crypto.randomBytes(5).toString('hex');
 
       return {
-        name: name,
+        name: image.image || name,
         tag: tag,
         id: id,
         dir: path.join(os.tmpdir(), id),
         tar: path.join(os.tmpdir(), id + '.tar'),
-        image: 'chimera-' + (image.image || name) + '-' + tag + '-' + id,
+        image: name + '-' + tag + '-' + id,
         install: (image.install || []).concat(config.install || []),
         script: config.script.join(' && ') // TODO is this a good idea?
       };
@@ -112,7 +109,7 @@ function bundle(target, cb) {
     fs.symlink.bind(fs, argv.project, path.join(target.dir, 'project')),
     function(cb) {
       tar.pack(target.dir, {dereference: true})
-      .pipe(fs.createWriteStream(target.tar))
+        .pipe(fs.createWriteStream(target.tar))
         .on('error', cb)
         .on('finish', cb);
     }
@@ -144,10 +141,13 @@ function test(target, cb) {
     if(err) {
       return cb(err);
     }
+    verbose('run data ', data);
+    verbose('run container ', container);
     if(data.StatusCode != 0) {
       return cb(new Error('tests failed on ' + target.image));
     }
-    target.container = container.Id;
+    target.container = container.id;
+
     cb();
   });
 }
