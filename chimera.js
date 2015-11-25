@@ -144,8 +144,8 @@ function test(target, cb) {
     if(data.StatusCode != 0) {
       return cb(new Error('tests failed on ' + target.image));
     }
-    target.container = container.id;
 
+    target.container = container.id;
     cb();
   });
 }
