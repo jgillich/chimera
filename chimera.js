@@ -50,10 +50,10 @@ if (argv.help) {
     '',
     '  -h, --help               output usage information',
     '  -v, --version            output version',
-    '  -c, --config <path>        set configuration file',
+    '  -c, --config <path>      set configuration file',
     '  -p, --project <path>     set project directory',
     '  -t, --target <image:tag> set target',
-    '  -V, --verbose                verbose mode'
+    '  -V, --verbose            verbose mode'
   ].join('\n'));
   process.exit(0);
 }
@@ -147,15 +147,20 @@ function test(target, cb) {
     if(data.StatusCode != 0) {
       return cb(new Error('tests failed on ' + target.image));
     }
+    target.container = container.Id;
     cb();
   });
 }
 
 function clean(target, cb) {
+  var container = docker.getContainer(target.container);
+  var image = docker.getImage(target.image);
+
   async.parallel([
     rimraf.bind(rimraf, target.dir),
-    rimraf.bind(rimraf, target.tar)
-    // docker.getContainer(container.Id).remove(callback);
+    rimraf.bind(rimraf, target.tar),
+    container.remove.bind(container),
+    image.remove.bind(image)
   ], cb);
 }
 
