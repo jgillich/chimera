@@ -141,8 +141,6 @@ function test(target, cb) {
     if(err) {
       return cb(err);
     }
-    verbose('run data ', data);
-    verbose('run container ', container);
     if(data.StatusCode != 0) {
       return cb(new Error('tests failed on ' + target.image));
     }
@@ -156,7 +154,7 @@ function clean(target, cb) {
   var container = docker.getContainer(target.container);
   var image = docker.getImage(target.image);
 
-  async.parallel([
+  async.series([
     rimraf.bind(rimraf, target.dir),
     rimraf.bind(rimraf, target.tar),
     container.remove.bind(container),
