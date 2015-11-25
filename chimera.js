@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var fs          = require('fs');
 var os          = require('os');
 var path        = require('path');
@@ -21,7 +23,8 @@ var argv = (function() {
     version: argv.v || argv.version,
     config: argv.f || argv.file || path.join(process.cwd(), '.chimera.yml'),
     project: argv.p || argv.project || process.cwd(),
-    target: argv.t || argv.target || process.env.CHIMERA_TARGET
+    target: argv.t || argv.target || process.env.CHIMERA_TARGET,
+    verbose: argv.V || argv.verbose
   };
 }());
 var verbose = argv.verbose ? console.log : function() {};
@@ -50,7 +53,7 @@ if (argv.help) {
     '  -c, --config <path>        set configuration file',
     '  -p, --project <path>     set project directory',
     '  -t, --target <image:tag> set target',
-    '  --verbose                verbose mode'
+    '  -V, --verbose                verbose mode'
   ].join('\n'));
   process.exit(0);
 }

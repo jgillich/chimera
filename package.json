@@ -1,9 +1,11 @@
 {
-  "name": "chimera",
-  "version": "0.1.0",
+  "name": "chimera-cli",
+  "version": "0.1.2",
   "description": "Easy multi-container testing with Docker",
   "main": "chimera.js",
-  "bin": "chimera.js",
+  "bin": {
+    "chimera": "chimera.js"
+  },
   "scripts": {
     "test": "./node_modules/eslint/bin/eslint.js . && node test.js"
   },
