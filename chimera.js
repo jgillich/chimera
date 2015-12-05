@@ -18,8 +18,8 @@ var argv = (function(argv) {
   return {
     help: argv.h || argv.help,
     version: argv.v || argv.version,
-    config: path.resolve(process.cwd(), (argv.f || argv.file || './.chimera.yml')),
-    project: path.resolve(process.cwd(), (argv.p || argv.project || './')),
+    config: path.resolve(process.cwd(), argv.f || argv.file || '.chimera.yml'),
+    project: path.resolve(process.cwd(), argv.p || argv.project || './'),
     target: argv.t || argv.target || process.env.CHIMERA_TARGET,
     verbose: argv.V || argv.verbose
   };
