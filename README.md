@@ -1,7 +1,7 @@
 # Chimera [![Build Status](https://travis-ci.org/jgillich/chimera.svg)](https://travis-ci.org/jgillich/chimera)
 
 Chimera allows you to run your tests on multiple Linux distributions. It is designed
-to work with any testing library and any CI platform that supports Docker.
+to work with any language, testing library and any CI platform that supports Docker.
 
 ## Getting Started
 
@@ -90,8 +90,10 @@ Run `chimera --help` to get the full list of available options.
 ## CI services
 
 ### Travis
-Chimera on Travis requires you to use the VM infrastructure. `.travis.yml`:
+Use `chimera generate travis` to generate a `.travis.yml` based on your Chimera
+configuration. Here is a example:
 ```
+language: node_js
 sudo: required
 services:
   - docker
@@ -99,4 +101,10 @@ install:
   - npm install -g chimera-cli
 script:
   - chimera
+env:
+  matrix:
+    - CHIMERA_TARGET=ubuntu:14.04
+    - CHIMERA_TARGET=ubuntu:15.10
+    - CHIMERA_TARGET=fedora:22
+    - CHIMERA_TARGET=fedora:23
 ```
