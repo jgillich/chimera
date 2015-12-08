@@ -34,7 +34,7 @@ Handlebars.registerHelper('render', function(template, data) {
   return new Handlebars.SafeString(Handlebars.compile(template)(data));
 });
 var dockerfile = Handlebars.compile([
-  'FROM {{name}}:{{tag}}',
+  'FROM {{baseImage}}:{{tag}}',
   'COPY project/ /project',
   'WORKDIR /project',
   '',
@@ -139,11 +139,12 @@ function targets(config, cb) {
       var id = crypto.randomBytes(5).toString('hex');
 
       return {
-        name: target.image || name,
+        name: name,
         tag: tag,
         id: id,
         dir: path.join(os.tmpdir(), id),
         tar: path.join(os.tmpdir(), id + '.tar'),
+        baseImage: target.image || name,
         image: name + '-' + tag + '-' + id,
         install: (target.install || []).concat(config.install || []),
         env: (target.env || []).concat(config.env || []),
