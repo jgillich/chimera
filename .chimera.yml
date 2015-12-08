@@ -6,7 +6,7 @@ script:
 docker:
   socketPath: /var/run/docker.sock
 env:
-  - TEST_ENV_BASIC=true # test
+  - TEST_ENV_ALL=true # test
 targets:
   ubuntu:
     tags:

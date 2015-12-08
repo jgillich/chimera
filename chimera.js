@@ -92,7 +92,7 @@ fs.readFile(argv.config, 'utf8', function(err, raw) {
 
 function targets(config, cb) {
   cb(null, _.map(config.targets, function(target, name) {
-    return image.tags.map(function(tag) {
+    return target.tags.map(function(tag) {
       var id = crypto.randomBytes(5).toString('hex');
 
       return {
@@ -102,8 +102,8 @@ function targets(config, cb) {
         dir: path.join(os.tmpdir(), id),
         tar: path.join(os.tmpdir(), id + '.tar'),
         image: name + '-' + tag + '-' + id,
-        install: (image.install || []).concat(config.install || []),
-        env: (image.env || []).concat(config.env || []),
+        install: (target.install || []).concat(config.install || []),
+        env: (target.env || []).concat(config.env || []),
         script: config.script.join(' && ') // TODO is this a good idea?
       };
     });
