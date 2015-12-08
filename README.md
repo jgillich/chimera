@@ -45,6 +45,8 @@ To execute the configuration, simply invoke `chimera`.
 
 * `install` is where you install dependencies.
 
+* `env` sets environment variables.
+
 * `script` defines your main test commands.
 
 * `docker` is the Docker client configuration passed to [dockerode](https://github.com/apocas/dockerode).
@@ -54,18 +56,36 @@ To execute the configuration, simply invoke `chimera`.
     * `image` is name of the image (optional, defaults to target name)
     * `tags` sets the tags
     * `install` runs before the top level install
+    * `env` sets environment variables
+
+## Templating
+
+Chimera renders `install` and `env` as Handlebar templates, allowing you to
+modify your container based in variables like tag. For example, to install EPEL
+on CentOS, you add this:
+
+```
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ tag }}.noarch.rpm -y -q
+```
+
+The following template variables are available:
+
+* `name`: image name
+* `tag`: image tag
+* `id`: unique container id
 
 ## Options
 
 Run `chimera --help` to get the full list of available options.
 
-*  `-f, --file <path>` sets configuration file, by default `.chimera.yml` in the current directory.
+* `-f, --file <path>` sets configuration file, by default `.chimera.yml` in the current directory.
 
-*  `-p, --project <path>` sets the project directory that is copied to `/project` inside containers. By default, this is the current directory.
+* `-p, --project <path>` sets the project directory that is copied to `/project` inside containers.
+  By default, this is the current directory.
 
-* `-t, --target <image:tag>` sets the target(s) to run, either in the form of `image` (run all tags
-   of image) or `image:tag` (single tag). You can also set this option using the
-   environment variable `CHIMERA_TARGET`.
+* `-t, --target <image:tag>` sets the target(s) to run, either in the form of `image`
+  (run all tags  of image) or `image:tag` (single tag). You can also set this
+  option using the environment variable `CHIMERA_TARGET`.
 
 ## CI services
 
@@ -80,8 +100,3 @@ install:
 script:
   - chimera
 ```
-
-## Wishlist
-
-* Interpret `install` commands as handlebars templates.
-* Write proper tests for chimera itself that can run on Travis.

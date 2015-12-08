@@ -24,14 +24,28 @@ var argv = (function(argv) {
     verbose: argv.V || argv.verbose
   };
 }(minimist(process.argv.slice(2))));
-var verbose = argv.verbose ? console.log : function() {};
+var verbose = argv.verbose ?
+  function(arg) { console.log(arg); return arg;} :
+  function(arg) { return arg; };
 var docker;
+
+Handlebars.registerHelper('render', function(template, data) {
+  return new Handlebars.SafeString(Handlebars.compile(template)(data));
+});
 var dockerfile = Handlebars.compile([
   'FROM {{name}}:{{tag}}',
   'COPY project/ /project',
   'WORKDIR /project',
+  '',
+  'ENV CHIMERA_TARGET={{name}}:{{tag}}',
+  'ENV CHIMERA_TARGET_NAME={{name}}',
+  'ENV CHIMERA_TARGET_TAG={{tag}}',
+  '{{#each env}}',
+  'ENV {{render this ../this}}',
+  '{{/each}}',
+  '',
   '{{#each install}}',
-  'RUN {{this}}',
+  'RUN {{render this ../this}}',
   '{{/each}}',
   'CMD {{script}}'
 ].join('\n'));
@@ -89,6 +103,7 @@ function targets(config, cb) {
         tar: path.join(os.tmpdir(), id + '.tar'),
         image: name + '-' + tag + '-' + id,
         install: (image.install || []).concat(config.install || []),
+        env: (image.env || []).concat(config.env || []),
         script: config.script.join(' && ') // TODO is this a good idea?
       };
     });
@@ -105,7 +120,7 @@ function bundle(target, cb) {
   async.series([
     fs.mkdir.bind(fs, target.dir),
     fs.writeFile.bind(fs,
-      path.join(target.dir, 'Dockerfile'), dockerfile(target)),
+      path.join(target.dir, 'Dockerfile'), verbose(dockerfile(target))),
     fs.symlink.bind(fs, argv.project, path.join(target.dir, 'project')),
     function(cb) {
       tar.pack(target.dir, {dereference: true})
