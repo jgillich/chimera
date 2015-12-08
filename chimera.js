@@ -21,7 +21,8 @@ var argv = (function(argv) {
     config: path.resolve(process.cwd(), argv.f || argv.file || '.chimera.yml'),
     project: path.resolve(process.cwd(), argv.p || argv.project || './'),
     target: argv.t || argv.target || process.env.CHIMERA_TARGET,
-    verbose: argv.V || argv.verbose
+    verbose: argv.V || argv.verbose,
+    _: argv._
   };
 }(minimist(process.argv.slice(2))));
 var verbose = argv.verbose ?
@@ -54,6 +55,7 @@ if (argv.help) {
   console.log([
     '',
     'Usage: chimera [options]',
+    '       chimera generate <ci-service>',
     '',
     'Easy multi-container testing with Docker',
     '',
@@ -83,12 +85,53 @@ fs.readFile(argv.config, 'utf8', function(err, raw) {
 
   targets(config, function(err, targets) {
     fail(err);
-    async.eachSeries(targets, function(target, cb) {
-      console.log(('executing target ' + target.image).green);
-      async.applyEachSeries([bundle, build, test, clean], target, cb);
-    }, fail);
+
+    switch (argv._[0]) {
+    case 'generate':
+      generate(targets);
+      break;
+    case 'run':
+    case undefined:
+      run(targets);
+      break;
+    default:
+      console.error('unknown command, see --help');
+    };
   });
 });
+
+function generate(targets) {
+  switch (argv._[1]) {
+  case 'travis':
+    console.log(Handlebars.compile([
+      'language: node_js',
+      'sudo: required',
+      'services:',
+      '  - docker',
+      'install:',
+      '  - npm install -g chimera-cli',
+      'script:',
+      '  - chimera',
+      'env:',
+      '  matrix:',
+      '{{#each this}}',
+      '    - CHIMERA_TARGET={{name}}:{{tag}}',
+      '{{/each}}'
+    ].join('\n'))(targets));
+    break;
+  default:
+    console.error('unknown ci service, example: chimera generate travis');
+  };
+
+
+};
+
+function run(targets) {
+  async.eachSeries(targets, function(target, cb) {
+    console.log(('executing target ' + target.image).green);
+    async.applyEachSeries([bundle, build, test, clean], target, cb);
+  }, fail);
+};
 
 function targets(config, cb) {
   cb(null, _.map(config.targets, function(target, name) {
