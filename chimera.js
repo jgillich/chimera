@@ -91,12 +91,12 @@ fs.readFile(argv.config, 'utf8', function(err, raw) {
 });
 
 function targets(config, cb) {
-  cb(null, _.map(config.targets, function(image, name) {
+  cb(null, _.map(config.targets, function(target, name) {
     return image.tags.map(function(tag) {
       var id = crypto.randomBytes(5).toString('hex');
 
       return {
-        name: image.image || name,
+        name: target.image || name,
         tag: tag,
         id: id,
         dir: path.join(os.tmpdir(), id),
