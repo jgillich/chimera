@@ -7,7 +7,7 @@ to work with any language, testing library and any CI platform that supports Doc
 
 First, you'll need to install the chimera cli:
 
-```javascript
+```sh
 npm install -g chimera-cli
 ```
 
@@ -60,12 +60,11 @@ To execute the configuration, simply invoke `chimera`.
 
 ## Templating
 
-Chimera renders `install` and `env` as Handlebar templates, allowing you to
-modify your container based in variables like tag. For example, to install EPEL
-on CentOS, you add this:
+Chimera renders `install` and `env` as Handlebar templates.
+For example, to install EPEL on CentOS, you add this:
 
-```
-yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ tag }}.noarch.rpm -y -q
+```sh
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{tag}}.noarch.rpm -y -q
 ```
 
 The following template variables are available:
@@ -92,7 +91,8 @@ Run `chimera --help` to get the full list of available options.
 ### Travis
 Use `chimera generate travis` to generate a `.travis.yml` based on your Chimera
 configuration. Here is a example:
-```
+
+```yaml
 language: node_js
 sudo: required
 services:
