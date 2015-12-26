@@ -122,8 +122,6 @@ function generate(targets) {
   default:
     console.error('unknown ci service, example: chimera generate travis');
   };
-
-
 };
 
 function run(targets) {
@@ -176,22 +174,12 @@ function bundle(target, cb) {
 }
 
 function build(target, cb) {
-  docker.buildImage(target.tar, {t: target.image}, function(err, res) {
+  docker.buildImage(target.tar, {t: target.image}, function(err, stream) {
     if(err) {
       return cb(err);
     }
 
-    res.on('data', function(data) {
-      var msg = JSON.parse(data);
-
-      if(msg.error) {
-        console.error(msg.error);
-        cb = cb.bind(null, new Error('failed to build image ' + target.image));
-      } else if(msg.stream || msg.status) {
-        verbose(msg.stream || msg.status);
-      }
-    });
-    res.on('end', cb);
+    docker.modem.followProgress(stream, cb, verbose);
   });
 }
 
