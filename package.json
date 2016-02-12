@@ -32,7 +32,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "eslint": "^1.10.1",
+    "eslint": "^2.0.0",
     "eslint-config-defaults": "^9.0.0",
     "eslint-plugin-filenames": "^0.2.0",
     "tape": "^4.2.2"
