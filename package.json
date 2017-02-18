@@ -27,7 +27,7 @@
     "handlebars": "^4.0.5",
     "js-yaml": "^3.5.4",
     "minimist": "^1.2.0",
-    "rimraf": "^2.4.4",
+    "rimraf": "^2.6.0",
     "tar-fs": "^1.8.1",
     "underscore": "^1.8.3"
   },
