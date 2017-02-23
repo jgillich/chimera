@@ -1,5 +1,7 @@
 # Chimera [![Build Status](https://travis-ci.org/jgillich/chimera.svg)](https://travis-ci.org/jgillich/chimera)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jgillich/chimera.svg)](https://greenkeeper.io/)
+
 Chimera allows you to run your tests on multiple Linux distributions. It is designed
 to work with any language, testing library and any CI platform that supports Docker.
 
