@@ -10,8 +10,7 @@ env:
 targets:
   ubuntu:
     tags:
-      - "14.04"
-      - "15.10"
+      - "16.04"
     install:
       - touch /test-install-target # test
       - apt-get update -qq
@@ -21,8 +20,7 @@ targets:
       - TEST_ENV_TARGET={{name}}:{{tag}} # test
   fedora:
     tags:
-      - "22"
-      - "23"
+      - "25"
     install:
       - touch /test-install-target # test
       - dnf update -y -q

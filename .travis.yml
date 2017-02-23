@@ -6,6 +6,5 @@ script:
   - node chimera.js --verbose
 env:
   matrix:
-    - CHIMERA_TARGET=ubuntu:14.04
-    - CHIMERA_TARGET=ubuntu:15.10
-    - CHIMERA_TARGET=fedora
+    - CHIMERA_TARGET=ubuntu:16.04
+    - CHIMERA_TARGET=fedora:25
