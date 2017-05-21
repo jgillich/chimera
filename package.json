@@ -24,7 +24,7 @@
     "async": "^2.0.0",
     "colors": "^1.1.2",
     "dockerode": "^2.2.3",
-    "handlebars": "^4.0.5",
+    "handlebars": "^4.0.9",
     "js-yaml": "^3.5.4",
     "minimist": "^1.2.0",
     "rimraf": "^2.4.4",
